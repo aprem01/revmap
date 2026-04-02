@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { PageHeader } from '@/components/shared/page-header';
 import { ScoreBadge } from '@/components/shared/score-badge';
 import { mockAccounts, mockAccountScores, getRepById } from '@/lib/mock-data';
@@ -70,12 +71,12 @@ export function AccountsPage() {
                 const score = scoreMap.get(account.id);
                 const rep = account.owner_rep_id ? getRepById(account.owner_rep_id) : null;
                 return (
-                  <tr key={account.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                  <tr key={account.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer">
                     <td className="px-5 py-3">
-                      <div>
-                        <p className="font-medium text-gray-900">{account.name}</p>
+                      <Link to={`/app/accounts/${account.id}`} className="block">
+                        <p className="font-medium text-blue-600 hover:text-blue-700">{account.name}</p>
                         <p className="text-xs text-gray-400">{account.city}, {account.state}</p>
-                      </div>
+                      </Link>
                     </td>
                     <td className="px-5 py-3 text-gray-600">{account.industry ?? '—'}</td>
                     <td className="px-5 py-3 text-gray-600">{account.employee_count?.toLocaleString() ?? '—'}</td>

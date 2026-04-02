@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { PageHeader } from '@/components/shared/page-header';
 import { ScoreBadge } from '@/components/shared/score-badge';
 import { mockReps, mockAccounts, mockAccountScores } from '@/lib/mock-data';
@@ -50,10 +51,10 @@ export function RepsPage() {
                 return (
                   <tr key={rep.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                     <td className="px-5 py-3">
-                      <div>
-                        <p className="font-medium text-gray-900">{rep.name}</p>
+                      <Link to={`/app/reps/${rep.id}`} className="block">
+                        <p className="font-medium text-blue-600 hover:text-blue-700">{rep.name}</p>
                         <p className="text-xs text-gray-400">{rep.email}</p>
-                      </div>
+                      </Link>
                     </td>
                     <td className="px-5 py-3">
                       <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700 capitalize">
