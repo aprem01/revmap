@@ -1,47 +1,87 @@
 <template>
   <lightning-card title="RevMap Recommendations" icon-name="custom:custom63">
+    <div slot="actions">
+      <lightning-button-icon
+        icon-name="utility:refresh"
+        alternative-text="Refresh"
+        onclick={handleRefresh}
+      ></lightning-button-icon>
+    </div>
+
     <div class="slds-p-around_medium">
+      <!-- Loading -->
       <template if:true={isLoading}>
-        <lightning-spinner alternative-text="Loading recommendations"></lightning-spinner>
+        <div class="slds-align_absolute-center slds-p-around_large">
+          <lightning-spinner alternative-text="Loading recommendations" size="medium"></lightning-spinner>
+        </div>
       </template>
 
+      <!-- Error -->
       <template if:true={error}>
-        <div class="slds-text-color_error slds-p-around_small">
-          {error}
+        <div class="slds-notify slds-notify_alert slds-alert_error slds-m-bottom_small" role="alert">
+          <span class="slds-assistive-text">error</span>
+          <h2>{error}</h2>
+        </div>
+      </template>
+
+      <!-- Success Toast -->
+      <template if:true={successMessage}>
+        <div class="slds-notify slds-notify_toast slds-theme_success slds-m-bottom_small" role="status">
+          <div class="slds-notify__content">
+            <h2 class="slds-text-heading_small">{successMessage}</h2>
+          </div>
         </div>
       </template>
 
       <template if:false={isLoading}>
+        <!-- Has recommendations -->
         <template if:true={hasRecommendations}>
+          <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_small">
+            {pendingCount} pending recommendation(s)
+          </div>
+
           <template for:each={recommendations} for:item="rec">
-            <div key={rec.id} class="slds-box slds-m-bottom_small">
-              <div class="slds-grid slds-gutters">
+            <div key={rec.id} class="slds-box slds-box_x-small slds-m-bottom_small">
+              <div class="slds-grid slds-gutters_x-small">
                 <div class="slds-col slds-size_8-of-12">
+                  <!-- Type and Status badges -->
                   <div class="slds-m-bottom_xx-small">
-                    <lightning-badge label={rec.type} class="slds-m-right_x-small"></lightning-badge>
+                    <lightning-badge label={rec.typeLabel} class="slds-m-right_xx-small"></lightning-badge>
                     <lightning-badge label={rec.statusLabel}></lightning-badge>
                   </div>
-                  <p class="slds-text-heading_small">{rec.accountName}</p>
-                  <p class="slds-text-body_regular slds-m-top_xx-small">{rec.reasoning}</p>
-                  <p class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small">
-                    Confidence: {rec.confidenceScore}%
-                  </p>
+
+                  <!-- Account name -->
+                  <p class="slds-text-heading_small slds-m-bottom_xx-small">{rec.accountName}</p>
+
+                  <!-- Reasoning -->
+                  <p class="slds-text-body_small slds-text-color_weak">{rec.reasoning}</p>
+
+                  <!-- Confidence -->
+                  <div class="slds-m-top_xx-small">
+                    <lightning-progress-bar value={rec.confidenceScore} size="small"></lightning-progress-bar>
+                    <span class="slds-text-body_small slds-text-color_weak">
+                      Confidence: {rec.confidenceScore}%
+                    </span>
+                  </div>
                 </div>
+
                 <div class="slds-col slds-size_4-of-12 slds-text-align_right">
                   <template if:true={rec.isPending}>
-                    <lightning-button
-                      label="Approve"
-                      variant="success"
-                      onclick={handleApprove}
-                      data-id={rec.id}
-                      class="slds-m-right_x-small"
-                    ></lightning-button>
-                    <lightning-button
-                      label="Dismiss"
-                      variant="neutral"
-                      onclick={handleDismiss}
-                      data-id={rec.id}
-                    ></lightning-button>
+                    <div class="slds-button-group">
+                      <lightning-button
+                        label="Approve"
+                        variant="success"
+                        onclick={handleApprove}
+                        data-id={rec.id}
+                        class="slds-m-bottom_xx-small"
+                      ></lightning-button>
+                      <lightning-button
+                        label="Dismiss"
+                        variant="neutral"
+                        onclick={handleDismiss}
+                        data-id={rec.id}
+                      ></lightning-button>
+                    </div>
                   </template>
                 </div>
               </div>
@@ -49,9 +89,12 @@
           </template>
         </template>
 
+        <!-- No recommendations -->
         <template if:false={hasRecommendations}>
-          <div class="slds-illustration slds-illustration_small slds-text-align_center">
-            <p class="slds-text-body_regular">No pending recommendations.</p>
+          <div class="slds-illustration slds-illustration_small slds-text-align_center slds-p-around_large">
+            <p class="slds-text-body_regular slds-text-color_weak">
+              No pending recommendations for this account.
+            </p>
           </div>
         </template>
       </template>

@@ -7,6 +7,8 @@ import {
   Users,
   GitBranch,
   FlaskConical,
+  BarChart3,
+  Settings,
 } from 'lucide-react';
 
 const navItems = [
@@ -17,6 +19,7 @@ const navItems = [
   { to: '/app/reps', icon: Users, label: 'Reps' },
   { to: '/app/territories', icon: GitBranch, label: 'Territories' },
   { to: '/app/scenarios', icon: FlaskConical, label: 'Scenarios' },
+  { to: '/app/analytics', icon: BarChart3, label: 'Analytics' },
 ];
 
 export function Sidebar() {
@@ -52,8 +55,21 @@ export function Sidebar() {
         </ul>
       </nav>
 
-      <div className="border-t border-gray-200 p-4">
-        <NavLink to="/" className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
+      <div className="border-t border-gray-200 p-3">
+        <NavLink
+          to="/app/settings"
+          className={({ isActive }) =>
+            `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              isActive
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+            }`
+          }
+        >
+          <Settings className="h-5 w-5" />
+          Settings
+        </NavLink>
+        <NavLink to="/" className="block mt-2 px-3 text-xs text-gray-400 hover:text-gray-600 transition-colors">
           ← Back to site
         </NavLink>
       </div>

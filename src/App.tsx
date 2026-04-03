@@ -10,6 +10,8 @@ import { RepsPage } from '@/components/reps/reps-page';
 import { RepDetail } from '@/components/reps/rep-detail';
 import { TerritoriesPage } from '@/components/territories/territories-page';
 import { ScenariosPage } from '@/components/scenarios/scenarios-page';
+import { AnalyticsPage } from '@/components/analytics/analytics-page';
+import { SettingsPage } from '@/components/settings/settings-page';
 
 export default function App() {
   return (
@@ -26,6 +28,8 @@ export default function App() {
           <Route path="reps/:id" element={<RepDetail />} />
           <Route path="territories" element={<TerritoriesPage />} />
           <Route path="scenarios" element={<ScenariosPage />} />
+          <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
