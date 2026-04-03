@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PageHeader } from '@/components/shared/page-header';
+import { useToast } from '@/components/shared/toast';
 import { RecommendationCard } from './recommendation-card';
 import {
   mockRecommendations,
@@ -12,6 +13,7 @@ export function RecommendationsPage() {
   const [recs, setRecs] = useState(mockRecommendations);
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('pending');
+  const { toast } = useToast();
 
   const filtered = recs.filter(r => {
     if (typeFilter !== 'all' && r.type !== typeFilter) return false;
@@ -20,6 +22,8 @@ export function RecommendationsPage() {
   });
 
   function handleApprove(id: string) {
+    const rec = recs.find(r => r.id === id);
+    const account = rec ? getAccountById(rec.account_id) : null;
     setRecs(prev =>
       prev.map(r =>
         r.id === id
@@ -27,9 +31,12 @@ export function RecommendationsPage() {
           : r
       )
     );
+    toast('success', `Approved: ${account?.name ?? 'Recommendation'} — changes will sync to Salesforce`);
   }
 
   function handleDismiss(id: string) {
+    const rec = recs.find(r => r.id === id);
+    const account = rec ? getAccountById(rec.account_id) : null;
     setRecs(prev =>
       prev.map(r =>
         r.id === id
@@ -37,9 +44,12 @@ export function RecommendationsPage() {
           : r
       )
     );
+    toast('info', `Dismissed: ${account?.name ?? 'Recommendation'}`);
   }
 
   function handleSnooze(id: string) {
+    const rec = recs.find(r => r.id === id);
+    const account = rec ? getAccountById(rec.account_id) : null;
     setRecs(prev =>
       prev.map(r =>
         r.id === id
@@ -47,6 +57,7 @@ export function RecommendationsPage() {
           : r
       )
     );
+    toast('info', `Snoozed: ${account?.name ?? 'Recommendation'} — will resurface in 7 days`);
   }
 
   return (

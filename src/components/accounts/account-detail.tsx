@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, MapPin, Calendar, TrendingUp } from 'lucide-react';
+import { ExternalLink, MapPin, Calendar, TrendingUp } from 'lucide-react';
 import { ScoreBadge } from '@/components/shared/score-badge';
+import { Breadcrumb } from '@/components/shared/breadcrumb';
 import {
   mockAccounts,
   mockAccountScores,
@@ -23,8 +24,9 @@ export function AccountDetail() {
   if (!account) {
     return (
       <div className="p-12 text-center">
-        <p className="text-gray-500">Account not found.</p>
-        <Link to="/app/accounts" className="text-blue-600 text-sm mt-2 inline-block">← Back to Accounts</Link>
+        <Breadcrumb items={[{ label: 'Accounts', to: '/app/accounts' }, { label: 'Not Found' }]} />
+        <p className="text-gray-500 mt-8">Account not found.</p>
+        <Link to="/app/accounts" className="text-blue-600 text-sm mt-2 inline-block hover:underline">Browse all accounts</Link>
       </div>
     );
   }
@@ -41,9 +43,7 @@ export function AccountDetail() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <Link to="/app/accounts" className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 mb-3">
-          <ArrowLeft className="h-4 w-4" /> Back to Accounts
-        </Link>
+        <Breadcrumb items={[{ label: 'Accounts', to: '/app/accounts' }, { label: account.name }]} />
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-3">
@@ -65,7 +65,7 @@ export function AccountDetail() {
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         <div className="rounded-xl border border-gray-200 bg-white p-4">
           <p className="text-xs text-gray-500">Employees</p>
           <p className="text-xl font-bold text-gray-900">{account.employee_count?.toLocaleString() ?? '—'}</p>

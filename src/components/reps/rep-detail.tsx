@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Mail, Briefcase, Clock } from 'lucide-react';
+import { Mail, Briefcase, Clock } from 'lucide-react';
 import { ScoreBadge } from '@/components/shared/score-badge';
+import { Breadcrumb } from '@/components/shared/breadcrumb';
 import {
   mockReps,
   mockAccounts,
@@ -19,8 +20,9 @@ export function RepDetail() {
   if (!rep) {
     return (
       <div className="p-12 text-center">
-        <p className="text-gray-500">Rep not found.</p>
-        <Link to="/app/reps" className="text-blue-600 text-sm mt-2 inline-block">← Back to Reps</Link>
+        <Breadcrumb items={[{ label: 'Reps', to: '/app/reps' }, { label: 'Not Found' }]} />
+        <p className="text-gray-500 mt-8">Rep not found.</p>
+        <Link to="/app/reps" className="text-blue-600 text-sm mt-2 inline-block hover:underline">Browse all reps</Link>
       </div>
     );
   }
@@ -44,9 +46,7 @@ export function RepDetail() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <Link to="/app/reps" className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 mb-3">
-          <ArrowLeft className="h-4 w-4" /> Back to Reps
-        </Link>
+        <Breadcrumb items={[{ label: 'Reps', to: '/app/reps' }, { label: rep.name }]} />
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-3">
@@ -70,7 +70,7 @@ export function RepDetail() {
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-6">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         <div className="rounded-xl border border-gray-200 bg-white p-4">
           <p className="text-xs text-gray-500">Segment</p>
           <p className="text-lg font-bold text-gray-900 capitalize">{rep.segment}</p>

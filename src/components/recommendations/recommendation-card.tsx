@@ -59,21 +59,21 @@ export function RecommendationCard({
           <div className="flex flex-col gap-2">
             <button
               onClick={() => onApprove(recommendation.id)}
-              className="flex items-center gap-1.5 rounded-lg bg-green-50 px-3 py-1.5 text-xs font-medium text-green-700 hover:bg-green-100 transition-colors"
+              className="flex items-center gap-1.5 rounded-lg bg-green-50 px-3 py-1.5 text-xs font-medium text-green-700 hover:bg-green-100 active:bg-green-200 active:scale-95 transition-all duration-150"
             >
               <Check className="h-3.5 w-3.5" />
               Approve
             </button>
             <button
               onClick={() => onSnooze(recommendation.id)}
-              className="flex items-center gap-1.5 rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-100 transition-colors"
+              className="flex items-center gap-1.5 rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-100 active:bg-blue-200 active:scale-95 transition-all duration-150"
             >
               <Clock className="h-3.5 w-3.5" />
               Snooze
             </button>
             <button
               onClick={() => onDismiss(recommendation.id)}
-              className="flex items-center gap-1.5 rounded-lg bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-1.5 rounded-lg bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-100 active:bg-gray-200 active:scale-95 transition-all duration-150"
             >
               <X className="h-3.5 w-3.5" />
               Dismiss
