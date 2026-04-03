@@ -6,8 +6,9 @@ import { HubSpotConnect } from './hubspot-connect';
 import { FieldMapping } from './field-mapping';
 import { SyncSettings } from './sync-settings';
 import { IntentSettings } from './intent-settings';
+import { SlackIntegration } from './slack-integration';
 
-type Tab = 'crm' | 'mapping' | 'sync' | 'intent';
+type Tab = 'crm' | 'mapping' | 'sync' | 'intent' | 'integrations';
 
 export function SettingsPage() {
   const [tab, setTab] = useState<Tab>('crm');
@@ -17,6 +18,7 @@ export function SettingsPage() {
     { id: 'mapping', label: 'Field Mapping' },
     { id: 'sync', label: 'Sync Schedule' },
     { id: 'intent', label: 'Intent Signals' },
+    { id: 'integrations', label: 'Integrations' },
   ];
 
   return (
@@ -58,6 +60,7 @@ export function SettingsPage() {
       {tab === 'mapping' && <FieldMapping />}
       {tab === 'sync' && <SyncSettings />}
       {tab === 'intent' && <IntentSettings />}
+      {tab === 'integrations' && <SlackIntegration />}
     </div>
   );
 }

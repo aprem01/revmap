@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { GitBranch, GitMerge, RotateCcw, Eye, Check, Archive, Plus } from 'lucide-react';
+import { GitBranch, GitMerge, RotateCcw, Eye, Check, Archive, Plus, Map } from 'lucide-react';
 import { PageHeader } from '@/components/shared/page-header';
 import { ScoreBadge } from '@/components/shared/score-badge';
+import { TerritoryMap } from './territory-map';
 import { mockAccounts, mockAccountScores, mockICPModel } from '@/lib/mock-data';
 import {
   mockTerritoryVersions,
@@ -61,6 +62,15 @@ export function TerritoriesPage() {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Territory Map */}
+      <div className="rounded-xl border border-gray-200 bg-white p-6">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <Map className="h-5 w-5 text-blue-500" />
+          Territory Map
+        </h2>
+        <TerritoryMap />
       </div>
 
       {/* Version List */}

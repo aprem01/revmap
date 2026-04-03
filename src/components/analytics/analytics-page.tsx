@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Download, TrendingUp, TrendingDown, CheckCircle2, XCircle, Clock, Target } from 'lucide-react';
 import { PageHeader } from '@/components/shared/page-header';
 import { ScoreBadge } from '@/components/shared/score-badge';
+import { PredictiveAnalytics } from './predictive-analytics';
+import { DataFlywheel } from './flywheel';
 import {
   mockAccounts,
   mockReps,
@@ -11,8 +13,11 @@ import {
   getRepById,
 } from '@/lib/mock-data';
 
+type AnalyticsTab = 'overview' | 'predictive' | 'flywheel';
+
 export function AnalyticsPage() {
   const [timeRange, setTimeRange] = useState('30d');
+  const [activeTab, setActiveTab] = useState<AnalyticsTab>('overview');
 
   // Compute analytics
   const approved = mockRecommendations.filter(r => r.status === 'approved');
@@ -79,7 +84,7 @@ export function AnalyticsPage() {
     <div className="space-y-6">
       <PageHeader
         title="Analytics & Reporting"
-        description="Territory health, recommendation performance, and win rate analysis"
+        description="Territory health, predictions, and the data flywheel"
         actions={
           <div className="flex items-center gap-2">
             <select
@@ -113,6 +118,29 @@ export function AnalyticsPage() {
         }
       />
 
+      {/* Tabs */}
+      <div className="flex gap-1 rounded-lg border border-gray-200 bg-gray-50 p-1">
+        {([
+          { id: 'overview' as const, label: 'Overview' },
+          { id: 'predictive' as const, label: 'Predictive' },
+          { id: 'flywheel' as const, label: 'Data Flywheel' },
+        ]).map(t => (
+          <button
+            key={t.id}
+            onClick={() => setActiveTab(t.id)}
+            className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+              activeTab === t.id ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === 'predictive' && <PredictiveAnalytics />}
+      {activeTab === 'flywheel' && <DataFlywheel />}
+
+      {activeTab === 'overview' && <>
       {/* Summary Stats */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-8">
         <div className="rounded-xl border border-gray-200 bg-white p-4">
@@ -307,6 +335,7 @@ export function AnalyticsPage() {
           </div>
         </div>
       </div>
+      </>}
     </div>
   );
 }
